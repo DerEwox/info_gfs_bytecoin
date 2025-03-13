@@ -31,6 +31,15 @@ export class Mempool {
 
     getbestPaying(count: number): Transaction[] {
         this.pool.sort((a, b) => b.fee - a.fee);
-        
+        return this.pool.slice(0, count)
+    }
+
+    getbestPayingHTML(count: number): string {
+        this.pool.sort((a, b) => b.fee - a.fee);
+            let hmtlOut = ""
+            for(let i = 0; i < count; i++) {
+                hmtlOut += this.pool[i].outputHTML()
+            }
+            return hmtlOut
     }
 }
