@@ -1,8 +1,8 @@
 export class Transaction {
-    private sourceWalletID: string
-    private targetWalletID: string
-    private value: number
-    private fee: number = Math.round((Math.random()*100)) / 1000
+    public sourceWalletID: string
+    public targetWalletID: string
+    public value: number
+    public fee: number = Math.round((Math.random()*100)) / 1000
 
     constructor(sourceWalletID: string, targetWalletID: string, value: number) {
         this.sourceWalletID = sourceWalletID
