@@ -1,0 +1,37 @@
+main {
+    position: relative;
+}
+
+.headerDIV {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: lightblue;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    gap: 20px;
+}
+
+.transaction-interface {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100vw;
+}
+
+.transaction-user {
+    overflow: auto;
+    margin-top: 70px;
+    height: calc(100vh - 70px);
+}
+
+.transaction-user.mid {
+    border: 2px solid white;
+    border-bottom-width: 0px;
+    border-top-width: 0px;
+}
