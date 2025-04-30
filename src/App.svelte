@@ -4,42 +4,49 @@
   import { Mempool } from "./lib/mempool";
   import "./styles.css";
 
-  let screen = "Transactions"
-
-  let t = new Transaction("Mark", "Uwe", 0.5);
-  let t1 = new Transaction("Mark", "Uwe", 0.25);
-  let t2 = new Transaction("Uwe", "Mark", 0.15);
-
+  let screen = "Transactions";
+  let showNewTransactionScreen = true;
   const mempool = new Mempool();
 
-  mempool.add(t);
-  mempool.add(t1);
-  mempool.add(t2);
-
-  const newblock = new Block("1", mempool.getbestPaying(3));
+  let newTransaction: {from: string, to: string, value: number} = {from: "", to:"", value: 0}
 </script>
+
 <main>
   <div class="headerDIV">
     <div class="header">
-      <button on:click={() => screen = "Trabsactions"}>Transactions</button>
-      <button on:click={() => screen = "Mempool"}>Mempool</button>
-      <button on:click={() => screen = "Miner"}>Miner</button>
-      <button on:click={() => screen = "Blockchain"}>Blockchain</button>
+      <button on:click={() => (screen = "Transactions")}>Transactions</button>
+      <button on:click={() => (screen = "Mempool")}>Mempool</button>
+      <button on:click={() => (screen = "Miner")}>Miner</button>
+      <button on:click={() => (screen = "Blockchain")}>Blockchain</button>
     </div>
   </div>
 
   <div class="screenDIV">
     {#if screen === "Transactions"}
       <div class="transaction-interface">
-        <div class="transaction-user">Im YELLOW</div>
-        <div class="transaction-user mid">Im RED</div>
-        <div class="transaction-user">Im BLUE</div>
+        <div class="transaction-user">Mark</div>
+        <div class="transaction-user mid">Uwe</div>
+        <div class="transaction-user">Ben</div>
       </div>
+      <button
+        class="toggleTransactionMenu"
+        on:click={() => showNewTransactionScreen = !showNewTransactionScreen}
+        >Add Transaction</button
+      >
+      {#if showNewTransactionScreen}
+        <div class="newTransactionScreen">
+          <button
+          style="position: absolute; top: 20px; right: 5px;"
+          on:click={() => showNewTransactionScreen = !showNewTransactionScreen}
+          >Exit</button
+        >
+        <h1 style="text-align: center;">Add Transaction</h1>
+        </div>
+      {/if}
     {/if}
   </div>
 </main>
 
-{newblock.hash}
 
 <style>
 </style>
