@@ -1,9 +1,10 @@
 import { Transaction } from "./transaction"
 
-export class user {
+export class User {
     public balance: number
     public walletID: string
     public pendingTransactions: Transaction[] = []
+    public html = ""
 
     constructor(walletID: string, balance:number) {
         this.balance = balance
@@ -11,14 +12,16 @@ export class user {
     }
 
     addTransaction(transaction: Transaction) {
-        this.pendingTransactions.push(transaction)
-    }
+        // Statt die bestehende Referenz zu verändern, fügen wir das neue Transaction-Objekt zu einem neuen Array hinzu
+        this.pendingTransactions = [...this.pendingTransactions, transaction];
+      }
 
     getHTML(): string {
         let hmtlOut = ""
         for(let i = 0; i < this.pendingTransactions.length; i++) {
             hmtlOut += this.pendingTransactions[i].outputHTML()
         }
+        this.html = hmtlOut
         return hmtlOut
     }
 
