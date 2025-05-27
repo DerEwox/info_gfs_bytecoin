@@ -1,7 +1,7 @@
 
 # Bytecoin Simulation
 
-Eine Simulation einer Kryptowerbung mit Blockchains.\
+Eine Simulation einer Kryptowährung mit Blockchains.\
 Basierend auf Bitcoin.
 
 
