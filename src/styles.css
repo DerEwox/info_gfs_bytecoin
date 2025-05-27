@@ -69,3 +69,13 @@
     width: 100px;
     border-radius: 5px;
 }
+
+.mempool-interface {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items:flex-start;
+    flex-wrap: wrap;
+    overflow: auto;
+    height: calc(100vh - 70px);
+}

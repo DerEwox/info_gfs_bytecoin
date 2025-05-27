@@ -4,7 +4,9 @@ export class User {
     public balance: number
     public walletID: string
     public pendingTransactions: Transaction[] = []
-    public html = ""
+    public successfulTransactions: Transaction[] = [] //TODO Muss zu MinedTransaction werden.
+    public pendingTransactionHtml = ""
+    public successfulTransactionHtml = ""
 
     constructor(walletID: string, balance:number) {
         this.balance = balance
@@ -21,7 +23,6 @@ export class User {
         for(let i = 0; i < this.pendingTransactions.length; i++) {
             hmtlOut += this.pendingTransactions[i].outputHTML()
         }
-        this.html = hmtlOut
         return hmtlOut
     }
 

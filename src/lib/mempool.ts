@@ -1,8 +1,9 @@
 import { Transaction } from "./transaction"
 
 export class Mempool {
-    private pool: Transaction[] = []
-    constructor() {}
+    public pool: Transaction[] = []
+    public html = ""
+    constructor() { }
 
 
     //* Füge eine Transaktion in den Mempool hinzu
@@ -12,8 +13,8 @@ export class Mempool {
 
     //* Element an Stelle Index aus Mempool löschen
     private removeFromMempool(index: number) {
-        for(let i=index; i < this.pool.length; i++) {
-            this.pool[i] = this.pool[i+1]
+        for (let i = index; i < this.pool.length; i++) {
+            this.pool[i] = this.pool[i + 1]
         }
         this.pool.pop()
     }
@@ -21,9 +22,9 @@ export class Mempool {
 
     //* Entferne Transaktionen vom Mempool
     remove(transactions: Transaction[]) {
-        for(let i = 0; i < transactions.length; i++) {
-            for(let j=0; j < this.pool.length; j++) {
-                if(transactions[i] === this.pool[j]) this.removeFromMempool(j)
+        for (let i = 0; i < transactions.length; i++) {
+            for (let j = 0; j < this.pool.length; j++) {
+                if (transactions[i] === this.pool[j]) this.removeFromMempool(j)
             }
         }
     }
@@ -36,10 +37,11 @@ export class Mempool {
 
     getbestPayingHTML(count: number): string {
         this.pool.sort((a, b) => b.fee - a.fee);
-            let hmtlOut = ""
-            for(let i = 0; i < count; i++) {
-                hmtlOut += this.pool[i].outputHTML()
-            }
-            return hmtlOut
+        let hmtlOut = ""
+        if (count < 0) count = this.pool.length
+        for (let i = 0; i < count; i++) {
+            hmtlOut += this.pool[i].outputHTML()
+        }
+        return hmtlOut
     }
 }
