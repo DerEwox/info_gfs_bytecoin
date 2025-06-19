@@ -4,6 +4,11 @@
   import { Mempool } from "./lib/mempool";
   import "./styles.css";
   import { User } from "./lib/user";
+  import { getRandomInt } from "./lib/utils";
+
+  let screen = "Transactions";
+  let showNewTransactionScreen = false;
+
   const mempool = new Mempool();
   const names = ["Mark", "Uwe", "Ben"];
   const users = [
@@ -12,22 +17,19 @@
     new User("Ben", 140),
   ];
 
-  let screen = "Transactions";
-  let showNewTransactionScreen = false;
-
   let newTransaction: { from: string; to: string; value: number } = {
     from: "",
     to: "",
     value: 0,
   };
 
+  //Fügt transaction dem Absender hinzu und fügt es in den Mempool hinzu
   function addNewTransaction() {
     let transaction = new Transaction(
       newTransaction.from,
       newTransaction.to,
       newTransaction.value,
     );
-    //Fügt transaction dem Absender hinzu und fügt es in den Mempool hinzu
     for (let i = 0; i < users.length; i++) {
       if (users[i].walletID === transaction.sourceWalletID) {
         users[i].addTransaction(transaction);
@@ -35,6 +37,22 @@
         mempool.add(transaction);
         mempool.html = mempool.getbestPayingHTML(-1); //(-1) gibt ganze Liste wieder
       }
+    }
+  }
+
+  let randomTransactionCount = 20
+  function addRandomTransaction() {
+    const count = randomTransactionCount;
+    for (let i = 0; i < count; i++) {
+      const value = getRandomInt(1, 5);
+      const user1 = users[getRandomInt(0, 2)];
+      let user2 = users[getRandomInt(0, 2)];
+      while (user2 === user1) user2 = users[getRandomInt(0, 2)];
+      newTransaction.from = user1.walletID;
+      newTransaction.to = user2.walletID;
+      newTransaction.value = value;
+
+      addNewTransaction();
     }
   }
 </script>
@@ -50,42 +68,63 @@
   </div>
 
   <div class="screenDIV">
-    {#if screen === "Transactions"}
+    {#if screen === "Transactions" || screen === "newTransaction"}
       <div class="transaction-interface">
         <div class="transaction-user">
           <h3>Mark (<span style="color: red">{users[0].balance}</span> BYC)</h3>
-          <h4><u>pending transactions:</u></h4>
-          {@html users[0].pendingTransactionHtml}
-          <h4 style="margin-top: 40px;"><u>successful transactions:</u></h4>
-          {@html users[0].successfulTransactionHtml}
+          <div class="pending">
+            <h4><u>pending transactions:</u></h4>
+            <div class="transactions">
+              {@html users[0].pendingTransactionHtml}
+            </div>
+          </div>
+          <div class="successful">
+            <h4><u>successful transactions:</u></h4>
+            <div class="transactions">
+              {@html users[0].successfulTransactionHtml}
+            </div>
+          </div>
         </div>
         <div class="transaction-user mid">
           <h3>Uwe (<span style="color: red">{users[1].balance}</span> BYC)</h3>
-          <h4><u>pending transactions:</u></h4>
-          {@html users[1].pendingTransactionHtml}
-          <h4 style="margin-top: 40px;"><u>successful transactions:</u></h4>
-          {@html users[1].successfulTransactionHtml}
+          <div class="pending">
+            <h4><u>pending transactions:</u></h4>
+            <div class="transactions">
+              {@html users[1].pendingTransactionHtml}
+            </div>
+          </div>
+          <div class="successful">
+            <h4><u>successful transactions:</u></h4>
+            <div class="transactions">
+              {@html users[1].successfulTransactionHtml}
+            </div>
+          </div>
         </div>
         <div class="transaction-user">
           <h3>Ben (<span style="color: red">{users[2].balance}</span> BYC)</h3>
-          <h4><u>pending transactions:</u></h4>
-          {@html users[2].pendingTransactionHtml}
-          <h4 style="margin-top: 40px;"><u>successful transactions:</u></h4>
-          {@html users[2].successfulTransactionHtml}
+          <div class="pending">
+            <h4><u>pending transactions:</u></h4>
+            <div class="transactions">
+              {@html users[2].pendingTransactionHtml}
+            </div>
+          </div>
+          <div class="successful">
+            <h4><u>successful transactions:</u></h4>
+            <div class="transactions">
+              {@html users[2].successfulTransactionHtml}
+            </div>
+          </div>
         </div>
       </div>
       <button
         class="toggleTransactionMenu"
-        on:click={() => (showNewTransactionScreen = !showNewTransactionScreen)}
-        >Add Transaction</button
+        on:click={() => (screen = "newTransaction")}>Add Transaction</button
       >
-      {#if showNewTransactionScreen}
+      {#if screen === "newTransaction"}
         <div class="newTransactionScreen">
           <button
             style="position: absolute; top: 20px; right: 5px;"
-            on:click={() =>
-              (showNewTransactionScreen = !showNewTransactionScreen)}
-            >Exit</button
+            on:click={() => (screen = "Transactions")}>Exit</button
           >
           <div class="newTransactionInputsHolder">
             <h1 style="text-align: center; flex-basis: 100%">
@@ -120,16 +159,33 @@
             <div style="flex-basis: 100%;">
               <button on:click={addNewTransaction}>Submit</button>
             </div>
+            <h2 style="flex-basis: 100%; margin-top:100px">Random Transactions</h2>
+            <label class="newTransactionLabel">
+              Count<br />
+              <input
+                class="newTransactionInput"
+                type="text"
+                bind:value={randomTransactionCount}
+              />
+            </label>
+            <div style="flex-basis: 100%;">
+              <button on:click={addRandomTransaction}
+                >Add random transactions</button
+              >
+            </div>
           </div>
         </div>
       {/if}
     {:else if screen === "Mempool"}
       <div class="mempool-interface">
         <h3 style="flex-basis: 100%;">Memory-Pool</h3>
-        {@html mempool.html}
+        <div class="transactions">
+          {@html mempool.html}
+        </div>
       </div>
     {/if}
   </div>
 </main>
+
 <style>
 </style>
