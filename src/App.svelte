@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Block } from "./lib/block";
+  import { Miner, MinerLogs } from "./lib/miner";
   import { Transaction } from "./lib/transaction";
   import { Mempool } from "./lib/mempool";
   import "./styles.css";
@@ -177,10 +177,38 @@
         </div>
       {/if}
     {:else if screen === "Mempool"}
+        <button>Start Mining</button>
       <div class="mempool-interface">
         <h3 style="flex-basis: 100%;">Memory-Pool</h3>
         <div class="transactions">
           {@html mempool.html}
+        </div>
+      </div>
+    {:else if screen === "Miner"}
+      <div class="transaction-interface">
+        <div class="transaction-user">
+          <h3>Miner Mark (<span style="color: red">{users[0].balance}</span> BYC)</h3>
+          <div class="pending">
+            <div class="transactions">
+              {@html MinerLogs[0]}
+            </div>
+          </div>
+        </div>
+        <div class="transaction-user mid">
+          <h3>Miner Uwe (<span style="color: red">{users[1].balance}</span> BYC)</h3>
+                    <div class="pending">
+            <div class="transactions">
+              {@html MinerLogs[1]}
+            </div>
+          </div>
+        </div>
+        <div class="transaction-user">
+          <h3>Miner Ben (<span style="color: red">{users[2].balance}</span> BYC)</h3>
+                    <div class="pending">
+            <div class="transactions">
+              {@html MinerLogs[2]}
+            </div>
+          </div>
         </div>
       </div>
     {/if}

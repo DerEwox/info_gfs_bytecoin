@@ -14,7 +14,7 @@ export class User {
     }
 
     addTransaction(transaction: Transaction) {
-        // Statt die bestehende Referenz zu verändern, fügen wir das neue Transaction-Objekt zu einem neuen Array hinzu
+        // Fügen es zu neune Array hinzu, da dann die Ansicht aktualisiert wird
         this.pendingTransactions = [...this.pendingTransactions, transaction];
       }
 
