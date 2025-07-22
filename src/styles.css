@@ -78,4 +78,5 @@
     flex-wrap: wrap;
     overflow: auto;
     height: calc(100vh - 70px);
+    width: 100%;
 }
