@@ -18,6 +18,7 @@ export class User {
         this.pendingTransactions = [...this.pendingTransactions, transaction];
       }
 
+    //Für Pending
     getHTML(): string {
         let hmtlOut = ""
         for(let i = 0; i < this.pendingTransactions.length; i++) {
@@ -26,6 +27,7 @@ export class User {
         return hmtlOut
     }
 
+    //! eig removeFromPending
     private removeFromMempool(index: number) {
         for(let i=index; i < this.pendingTransactions.length; i++) {
             this.pendingTransactions[i] = this.pendingTransactions[i+1]

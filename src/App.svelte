@@ -55,6 +55,15 @@
       addNewTransaction();
     }
   }
+
+  let firstMinerLog = MinerLogs[0];
+  let tmpMiner = new Miner("", mempool.getbestPaying(5), 0);
+
+  function startMining() {
+    screen = "Miner";
+    tmpMiner.transactions = mempool.getbestPaying(30);
+    tmpMiner.mineBlock(4);
+  }
 </script>
 
 <main>
@@ -177,7 +186,7 @@
         </div>
       {/if}
     {:else if screen === "Mempool"}
-        <button>Start Mining</button>
+        <button class="toggleTransactionMenu" on:click={startMining}>Start Mining</button>
       <div class="mempool-interface">
         <h3 style="flex-basis: 100%;">Memory-Pool</h3>
         <div class="transactions">
@@ -185,12 +194,13 @@
         </div>
       </div>
     {:else if screen === "Miner"}
+    <button on:click={startMining}>Start Mining</button>
       <div class="transaction-interface">
         <div class="transaction-user">
           <h3>Miner Mark (<span style="color: red">{users[0].balance}</span> BYC)</h3>
           <div class="pending">
             <div class="transactions">
-              {@html MinerLogs[0]}
+              {@html $firstMinerLog}
             </div>
           </div>
         </div>
