@@ -89,9 +89,10 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    align-content:  flex-start;
+    align-content: flex-start;
     overflow: auto;
 }
+
 .transaction-interface .pending h4,
 .transaction-interface .successful h4 {
     margin-top: 0px;
@@ -110,3 +111,68 @@
     height: calc(100vh - 70px);
     width: 100%;
 }
+
+.minerinterface_stopped {
+    flex-basis: 100%;
+    text-align: center;
+    color: #dc2626;
+    margin: 1rem 0;
+    font-size: 1.2rem;
+}
+
+.minerinterface_details {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: #1f2937;
+}
+
+.minerinterface_details strong {
+    color: #059669;
+}
+
+.minerinterface_code {
+    background: #f3f4f6;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    display: inline-block;
+    max-width: 90%;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .minerinterface_details {
+        color: #d1d5db;
+    }
+
+    .minerinterface_code {
+        background: #374151;
+        color: #f9fafb;
+    }
+}
+
+  .MempoolTransactions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 Spalten */
+    gap: 0.5rem; /* Abstand zwischen den Spalten */
+    margin-top: 0.5rem;
+  }
+
+  .MempoolTransactions p {
+    margin: 0;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .MempoolTransactions p {
+      border-color: #374151;
+      background: #1f2937;
+      color: #f3f4f6;
+    }
+  }
