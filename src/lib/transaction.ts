@@ -11,7 +11,7 @@ export class Transaction {
     }
 
     public outputHTML(): string {
-        let html = `<p style="flex-basis: 100%; margin-top: 5px"><span style="color: red">${this.sourceWalletID}</span> to <span style="color: red">${this.targetWalletID}</span>: <span style="color: lightblue">${this.value}WE</span> Fee: <span style="color: lightblue">${this.fee}WE</span></p>`
+        let html = `<p style="flex-basis: 100%; margin-top: 5px"><span style="color: red">${this.sourceWalletID}</span> to <span style="color: red">${this.targetWalletID}</span>: <span style="color: blue">${this.value}WE</span> Fee: <span style="color: #3b5fc9ff">${this.fee}WE</span></p>`
         return html
     }
 }

@@ -36,6 +36,8 @@
     border-top-width: 0px;
 }
 
+
+
 .toggleTransactionMenu {
     position: absolute;
     bottom: 20px;
@@ -50,7 +52,13 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: #202020;
+    background-color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+    .newTransactionScreen {
+        background-color: #202020;
+    }
 }
 
 .newTransactionInputsHolder {
@@ -154,25 +162,74 @@
     }
 }
 
-  .MempoolTransactions {
+.MempoolTransactions {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 Spalten */
-    gap: 0.5rem; /* Abstand zwischen den Spalten */
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 Spalten */
+    gap: 0.5rem;
+    /* Abstand zwischen den Spalten */
     margin-top: 0.5rem;
-  }
+}
 
-  .MempoolTransactions p {
+.MempoolTransactions p {
     margin: 0;
     padding: 0.3rem 0.5rem;
     border: 1px solid #e5e7eb;
     border-radius: 4px;
     font-size: 0.9rem;
-  }
+}
 
-  @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
     .MempoolTransactions p {
-      border-color: #374151;
-      background: #1f2937;
-      color: #f3f4f6;
+        border-color: #374151;
+        background: #1f2937;
+        color: #f3f4f6;
     }
-  }
+}
+
+.blockchain-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 2px solid #333;
+    border-radius: 14px;
+    padding: 15px 25px;
+    margin: 20px auto;
+    margin-top: 40px;
+    background: linear-gradient(135deg, #f9f9f9, #ececec);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    width: 95%;
+    max-width: 1100px;
+    gap: 25px;
+}
+
+.block-info {
+    flex: 0.9;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 25px;
+    border-right: 2px solid #aaa;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: left;
+}
+
+.block-transactions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px 20px;
+    align-items: start;
+    justify-items: stretch;
+    background: #fff;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.08);
+    font-size: 0.8em;
+    line-height: 1.2em;
+}
+
+.blockchain-interface {
+    margin-top: 90px;
+}

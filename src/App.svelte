@@ -1,16 +1,19 @@
 <script lang="ts">
+  import "./styles.css";
   import { Miner, MinerLogs } from "./lib/miner";
   import { Transaction } from "./lib/transaction";
   import { Mempool } from "./lib/mempool";
-  import "./styles.css";
   import { User } from "./lib/user";
   import { getRandomInt } from "./lib/utils";
+  import { Blockchain } from "./lib/blockchain";
 
   let screen = "Transactions";
   let minerState = "idle"; //idle, mining, stopped
   let showNewTransactionScreen = false;
 
   const mempool = new Mempool();
+  const blockchain = new Blockchain()
+
   const names = ["Mark", "Uwe", "Ben"];
   const users = [
     new User("Mark", 120),
@@ -41,7 +44,7 @@
     }
   }
 
-  let randomTransactionCount = 20;
+  let randomTransactionCount = 40;
   function addRandomTransaction() {
     const count = randomTransactionCount;
     for (let i = 0; i < count; i++) {
@@ -57,7 +60,7 @@
     }
   }
 
-  let _MinerLogs = MinerLogs;
+
   let MinerMarkLog = MinerLogs[0];
   let MinerUweLog = MinerLogs[1];
   let MinerBenLog = MinerLogs[2];
@@ -71,17 +74,19 @@
   async function startMining() {
     minerState = "mining";
     screen = "Miner";
-    const promises = miner.map((m) => {
+    const minerPromises = miner.map((m) => {
       m.transactions = mempool.getbestPaying(30);
-      return m.mineBlock(4).then((result) => ({ miner: m, result }));
+      return m.mineBlock(4, blockchain.chain[blockchain.chain.length-1]?.hash).then((result) => ({ miner: m, result }));
     });
 
-    const { miner: winner, result } = await Promise.race(promises);
+    const { miner: winner, result } = await Promise.race(minerPromises);
     winningMiner.id = winner.minerId;
     winningMiner.time = result.time;
     winningMiner.nonce = result.nonce;
     winningMiner.hash = result.hash;
     minerState = "stopped";
+
+    blockchain.addBlock(result.minedBlock!);
 
     console.log("Gewinner:", winner, "Block:", result);
 
@@ -166,6 +171,20 @@
             <h1 style="text-align: center; flex-basis: 100%">
               Add Transaction
             </h1>
+            <div style="flex-basis: 100%;">
+              <button on:click={addRandomTransaction}
+                >Add
+                  <input
+                    class="newTransactionInput"
+                    style="width: 40px; height: 20px; text-align: center;"
+                    type="text"
+                    bind:value={randomTransactionCount}
+                  />
+                  random transactions
+              </button>
+            </div>
+
+            <h3 style="text-align: center; flex-basis: 100%; margin-bottom: 0; margin-top: 60px">manuell</h3>
             <label class="newTransactionLabel">
               From:<br />
               <input
@@ -174,7 +193,6 @@
                 bind:value={newTransaction.from}
               />
             </label>
-
             <label class="newTransactionLabel">
               To:<br />
               <input
@@ -195,25 +213,10 @@
             <div style="flex-basis: 100%;">
               <button on:click={addNewTransaction}>Submit</button>
             </div>
-            <h2 style="flex-basis: 100%; margin-top:100px">
-              Random Transactions
-            </h2>
-            <label class="newTransactionLabel">
-              Count<br />
-              <input
-                class="newTransactionInput"
-                type="text"
-                bind:value={randomTransactionCount}
-              />
-            </label>
-            <div style="flex-basis: 100%;">
-              <button on:click={addRandomTransaction}
-                >Add random transactions</button
-              >
-            </div>
           </div>
         </div>
       {/if}
+
     {:else if screen === "Mempool"}
       <button class="toggleTransactionMenu" on:click={startMining}
         >Start Mining</button
@@ -290,6 +293,10 @@
                     </span>
                   {/if}
                 </h4>
+              {:else}
+                <h4 style="flex-basis: 100%; text-align: center; color: gray">
+                  Idle
+                </h4>
               {/if}
             </div>
           </div>
@@ -331,9 +338,13 @@
           </div>
         </div>
       </div>
+    {:else if screen === "Blockchain"}
+      <div class="blockchain-interface">
+        <h3 style="flex-basis: 100%;">Blockchain</h3>
+        <div class="BlockchainBlocks">
+          {@html blockchain.html}
+        </div>
+      </div>
     {/if}
   </div>
 </main>
-
-<style>
-</style>
