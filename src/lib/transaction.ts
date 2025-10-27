@@ -4,10 +4,11 @@ export class Transaction {
     public value: number
     public fee: number = Math.round((Math.random()*100)) / 1000
 
-    constructor(sourceWalletID: string, targetWalletID: string, value: number) {
+    constructor(sourceWalletID: string, targetWalletID: string, value: number, fee?: number) {
         this.sourceWalletID = sourceWalletID
         this.targetWalletID = targetWalletID
         this.value = value
+        if(fee) this.fee = fee
     }
 
     public outputHTML(): string {

@@ -24,7 +24,10 @@ export class Mempool {
     remove(transactions: Transaction[]) {
         for (let i = 0; i < transactions.length; i++) {
             for (let j = 0; j < this.pool.length; j++) {
-                if (this.checkEqual(this.pool[j], transactions[i])) this.removeFromMempool(j)
+                if (this.checkEqual(this.pool[j], transactions[i])) {
+                    this.removeFromMempool(j)
+                    break
+                }
             }
         }
     }

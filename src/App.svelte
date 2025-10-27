@@ -96,8 +96,6 @@
     }
     mempool.html = mempool.getbestPayingHTML(-1)
 
-    console.log("Gewinner:", winner, "Block:", result);
-
     for (const m of miner) {
       if (m !== winner) {
         m.stopMiner();

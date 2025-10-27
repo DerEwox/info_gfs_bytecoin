@@ -33,6 +33,7 @@ export class Miner {
   }
 
   async mineBlock(difficulty: number, previousHash: string | undefined): Promise<{ hash: string, time: number, nonce: number, minedBlock?: minedBlock }> {
+    console.log("Transactions to mine:", this.transactions);
     this.stopped = false
     if (previousHash) {
       this.previousHash = previousHash

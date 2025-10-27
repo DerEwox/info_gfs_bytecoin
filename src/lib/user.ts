@@ -29,7 +29,6 @@ export class User {
 
     getHTMLSuccessful(): string {
         let hmtlOut = ""
-        console.log("Successful Transactions:", this.successfulTransactions);
         for (let i = 0; i < this.successfulTransactions.length; i++) {
             hmtlOut += this.successfulTransactions[i].outputHTML() || ""
         }
@@ -49,7 +48,10 @@ export class User {
     remove(transactions: Transaction[]) {
         for(let i = 0; i < transactions.length; i++) {
             for(let j=0; j < this.pendingTransactions.length; j++) {
-                if(this.checkEqual(transactions[i], this.pendingTransactions[j])) this.removeFromPending(j)
+                if(this.checkEqual(transactions[i], this.pendingTransactions[j])) {
+                    this.removeFromPending(j)
+                    break
+                }
             }
         }
     }

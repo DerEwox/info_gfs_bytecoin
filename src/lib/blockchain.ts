@@ -37,7 +37,7 @@ export class Blockchain {
 
         let txArray: Transaction[] = []
         const parsed = JSON.parse(newBlock.transactions)
-        txArray = parsed.map((tx: any) => new Transaction(tx.sourceWalletID, tx.targetWalletID, tx.value))
+        txArray = parsed.map((tx: any) => new Transaction(tx.sourceWalletID, tx.targetWalletID, tx.value, tx.fee))
 
         const transactionsHTML = txArray.map(tx => tx.outputHTML()).join("")
 
