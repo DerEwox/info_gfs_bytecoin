@@ -16,31 +16,48 @@ export class User {
     addTransaction(transaction: Transaction) {
         // Fügen es zu neune Array hinzu, da dann die Ansicht aktualisiert wird
         this.pendingTransactions = [...this.pendingTransactions, transaction];
-      }
+    }
 
-    //Für Pending
-    getHTML(): string {
+    getHTMLPending(): string {
         let hmtlOut = ""
         for(let i = 0; i < this.pendingTransactions.length; i++) {
-            hmtlOut += this.pendingTransactions[i].outputHTML()
+            hmtlOut += this.pendingTransactions[i].outputHTML() || ""
         }
         return hmtlOut
     }
 
-    //! eig removeFromPending
-    private removeFromMempool(index: number) {
+
+    getHTMLSuccessful(): string {
+        let hmtlOut = ""
+        console.log("Successful Transactions:", this.successfulTransactions);
+        for (let i = 0; i < this.successfulTransactions.length; i++) {
+            hmtlOut += this.successfulTransactions[i].outputHTML() || ""
+        }
+        return hmtlOut
+    }
+
+    private removeFromPending(index: number) {
+        this.successfulTransactions = [...this.successfulTransactions, this.pendingTransactions[index]];
         for(let i=index; i < this.pendingTransactions.length; i++) {
             this.pendingTransactions[i] = this.pendingTransactions[i+1]
         }
         this.pendingTransactions.pop()
+        
     }
 
 
     remove(transactions: Transaction[]) {
         for(let i = 0; i < transactions.length; i++) {
             for(let j=0; j < this.pendingTransactions.length; j++) {
-                if(transactions[i] === this.pendingTransactions[j]) this.removeFromMempool(j)
+                if(this.checkEqual(transactions[i], this.pendingTransactions[j])) this.removeFromPending(j)
             }
         }
+    }
+
+    private checkEqual(ts1: Transaction, ts2: Transaction): boolean {
+        return ts1.sourceWalletID === ts2.sourceWalletID &&
+            ts1.targetWalletID === ts2.targetWalletID &&
+            ts1.value === ts2.value &&
+            ts1.fee === ts2.fee
     }
 }

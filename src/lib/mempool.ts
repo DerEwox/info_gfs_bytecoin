@@ -24,9 +24,16 @@ export class Mempool {
     remove(transactions: Transaction[]) {
         for (let i = 0; i < transactions.length; i++) {
             for (let j = 0; j < this.pool.length; j++) {
-                if (transactions[i] === this.pool[j]) this.removeFromMempool(j)
+                if (this.checkEqual(this.pool[j], transactions[i])) this.removeFromMempool(j)
             }
         }
+    }
+
+    private checkEqual(ts1: Transaction, ts2: Transaction): boolean {
+        return ts1.sourceWalletID === ts2.sourceWalletID &&
+            ts1.targetWalletID === ts2.targetWalletID &&
+            ts1.value === ts2.value &&
+            ts1.fee === ts2.fee
     }
 
 

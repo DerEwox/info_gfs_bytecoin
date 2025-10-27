@@ -37,7 +37,7 @@
     for (let i = 0; i < users.length; i++) {
       if (users[i].walletID === transaction.sourceWalletID) {
         users[i].addTransaction(transaction);
-        users[i].pendingTransactionHtml = users[i].getHTML();
+        users[i].pendingTransactionHtml = users[i].getHTMLPending();
         mempool.add(transaction);
         mempool.html = mempool.getbestPayingHTML(-1); //(-1) gibt ganze Liste wieder
       }
@@ -87,6 +87,14 @@
     minerState = "stopped";
 
     blockchain.addBlock(result.minedBlock!);
+
+    mempool.remove(JSON.parse(result.minedBlock!.transactions));
+    for (let i = 0; i < users.length; i++) {
+      users[i].remove(JSON.parse(result.minedBlock!.transactions));
+      users[i].pendingTransactionHtml = users[i].getHTMLPending();
+      users[i].successfulTransactionHtml = users[i].getHTMLSuccessful();
+    }
+    mempool.html = mempool.getbestPayingHTML(-1)
 
     console.log("Gewinner:", winner, "Block:", result);
 
